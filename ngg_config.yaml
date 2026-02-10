@@ -13,8 +13,8 @@ auditors:
 # List of output modules to generate (relative to outputs/dir)
 # Choose either html_output or tui_output, or both if desired (though TUI might dominate console)
 outputs:
-  - "tui_output"
-  # - "html_output"
+  # - "tui_output"
+  - "html_output"
 
 output_settings:
   html_report_file: "audit_report.html"

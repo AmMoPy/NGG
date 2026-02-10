@@ -46,13 +46,7 @@ If you’re here, it’s because you realized that other tools are just glorifie
 ### Running The Audit
 
 ```bash
-python audit_engine.py /path/to/your/messy/project
-```
-
-### The Live Dashboard
- 
-```bash
-python scripts/compliance_tui.py  /path/to/your/project
+python engine.py
 ```
  
 ## The Value Proposition
