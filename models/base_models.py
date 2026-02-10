@@ -53,6 +53,17 @@ class CompiledRule(BaseModel):
 
 
 class AuditResultsSummary(BaseModel):
-    findings: List[Finding]
-    stats: Dict[Literal["pass", "fail"], int]
-    metadata: Dict[str, Any]
+    findings: List[Finding] = Field(default_factory=list)
+    stats: Dict[Literal["pass", "fail"], int] = Field(
+        default_factory=lambda: {"pass": 0, "fail": 0}
+    )
+    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+    def clear(self):
+        """Resets all fields to their original default values"""
+        for name, field in self.model_fields.items():
+            if field.default_factory:
+                # Re-run the factory to get a fresh list/dict
+                setattr(self, name, field.default_factory())
+            else:
+                setattr(self, name, field.default)

@@ -12,7 +12,10 @@
            <p><strong>Framework:</strong> <span id="framework-value"></span> |
               <strong>Status:</strong> <span id="status-value"></span> |
               <strong>Files Scanned:</strong> <span id="files-count"></span> |
-              <strong>Path:</strong> <span id="path-value">...</span></p>
+              <strong>Path:</strong> <span id="path-value">...</span> |
+              <strong>Scan Time:</strong> <span id="scan-time">...</span>
+              
+          </p>
         </header>
 
         <main>
@@ -73,7 +76,7 @@
     <script src="report_templates/static/js/report.js"></script>
     <script>
         // Inject the data from Python after report.js is loaded
-        window.NGG_AUDIT_DATA = JSON.parse("{\"findings\":[{\"id\":\"CC6.1\",\"type\":\"Logic\",\"status\":\"FAIL\",\"control\":\"Logical and physical access controls are suitably designed to...\",\"evidence\":{\"matches\":[{\"check_id\":\"patterns.auth_check_pattern\",\"path\":\"../../../../DoX/DOX/backend/app/api/web.py\",\"start\":{\"line\":9,\"col\":1,\"offset\":185},\"end\":{\"line\":48,\"col\":46,\"offset\":1968},\"extra\":{\"message\":\"Compliance Violation: Route found without proper Auth dependency (Function or Router level).\",\"metadata\":{},\"severity\":\"ERROR\",\"fingerprint\":\"requires login\",\"lines\":\"requires login\",\"validation_state\":\"NO_VALIDATOR\",\"engine_kind\":\"OSS\"}}]}},{\"id\":\"CC6.3\",\"type\":\"Logic\",\"status\":\"PASS\",\"control\":\"Prior to issuing system credentials, the entity registers and authorizes new internal users...\",\"evidence\":{}},{\"id\":\"CC1.5\",\"type\":\"Process\",\"status\":\"FAIL\",\"control\":\"The entity implements logical access security measures to protect nonpublic information...\",\"evidence\":{\"message\":\"Last commit is not GPG signed.\",\"stdout\":\"commit 85a7f92ab4ba4e0e2fb1375a64ad21b842e72aac\\nAuthor: User\\nDate:   Sun Feb 1 22:57:24 2026 +0200\\n\\n    Lies & Exaggerations\\n\"}}],\"stats\":{\"pass\":1,\"fail\":2},\"metadata\":{\"framework\":\"SOC2-Type1\",\"target_path\":\"../../../../DoX/DOX\",\"scm_checked\":true,\"integrity_hash\":\"8009ac931...\",\"scan_time\":\"2026-02-10 01:06:57\",\"files_scanned\":69}}");
+        window.NGG_AUDIT_DATA = JSON.parse("{\"findings\":[{\"id\":\"CC6.1\",\"type\":\"Logic\",\"status\":\"FAIL\",\"control\":\"Logical and physical access controls are suitably designed to...\",\"evidence\":{\"matches\":[{\"check_id\":\"patterns.auth_check_pattern\",\"path\":\"../../DoX/DOX/backend/app/api/web.py\",\"start\":{\"line\":9,\"col\":1,\"offset\":185},\"end\":{\"line\":48,\"col\":46,\"offset\":1968},\"extra\":{\"message\":\"Compliance Violation: Route found without proper Auth dependency (Function or Router level).\",\"metadata\":{},\"severity\":\"ERROR\",\"fingerprint\":\"requires login\",\"lines\":\"requires login\",\"validation_state\":\"NO_VALIDATOR\",\"engine_kind\":\"OSS\"}}]}},{\"id\":\"CC6.3\",\"type\":\"Logic\",\"status\":\"PASS\",\"control\":\"Prior to issuing system credentials, the entity registers and authorizes new internal users...\",\"evidence\":{}},{\"id\":\"CC1.5\",\"type\":\"Process\",\"status\":\"FAIL\",\"control\":\"The entity implements logical access security measures to protect nonpublic information...\",\"evidence\":{\"message\":\"Last commit is not GPG signed.\",\"stdout\":\"commit 85a7f92ab...\\nAuthor: User\\nDate:   Sun Feb 1 22:57:24 2026 +0200\\n\\n    Lies & Exaggerations\\n\"}}],\"stats\":{\"pass\":1,\"fail\":2},\"metadata\":{\"scan_time\":\"2026-02-11 00:23:53\",\"framework\":\"SOC2-Type1\",\"target_path\":\"../../DoX/DOX\",\"files_scanned\":69,\"scm_checked\":true,\"integrity_hash\":\"3d6f33fb4...\"}}");
         // Optionally trigger the main report rendering function
         if (typeof window.renderReport === 'function') {
             window.renderReport(window.NGG_AUDIT_DATA);

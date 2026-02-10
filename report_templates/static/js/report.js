@@ -23,6 +23,7 @@ function renderReport(data) {
 
     document.getElementById('files-count').textContent = data.metadata.files_scanned || '0';
     document.getElementById('path-value').textContent = data.metadata.target_path || 'Unknown';
+    document.getElementById('scan-time').textContent = data.metadata.scan_time || 'Unknown';
     document.getElementById('integrity-hash').textContent = data.metadata.integrity_hash || 'N/A';
 
     // Populate Findings Table

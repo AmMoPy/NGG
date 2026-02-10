@@ -1,4 +1,4 @@
-target_directory: "../../../../DoX/DOX" # Path to the codebase to audit
+target_directory: "../../DoX/DOX" # Path to the codebase to audit
 framework: "SOC2-Type1" # Name of the compliance framework
 
 # Define the control matrix and pattern definition files
@@ -11,10 +11,9 @@ auditors:
   - "process_auditor"
 
 # List of output modules to generate (relative to outputs/dir)
-# Choose either html_output or tui_output, or both if desired (though TUI might dominate console)
 outputs:
-  # - "tui_output"
-  - "html_output"
+  - "tui_output"  # activate via --live flag
+  # - "html_output"
 
 output_settings:
   html_report_file: "audit_report.html"

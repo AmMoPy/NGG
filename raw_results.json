@@ -9,7 +9,7 @@
         "matches": [
           {
             "check_id": "patterns.auth_check_pattern",
-            "path": "../../../../DoX/DOX/backend/app/api/web.py",
+            "path": "../../DoX/DOX/backend/app/api/web.py",
             "start": {
               "line": 9,
               "col": 1,
@@ -47,7 +47,7 @@
       "control": "The entity implements logical access security measures to protect nonpublic information...",
       "evidence": {
         "message": "Last commit is not GPG signed.",
-        "stdout": "commit 85a7f92..\nAuthor: User\nDate:   Sun Feb 1 22:57:24 2026 +0200\n\n    Lies & Exaggerations\n"
+        "stdout": "commit 85a7f92ab...\nAuthor: User\nDate:   Sun Feb 1 22:57:24 2026 +0200\n\n    Lies & Exaggerations\n"
       }
     }
   ],
@@ -56,11 +56,11 @@
     "fail": 2
   },
   "metadata": {
+    "scan_time": "2026-02-11 00:23:53",
     "framework": "SOC2-Type1",
-    "target_path": "../../../../DoX/DOX",
+    "target_path": "../../DoX/DOX",
+    "files_scanned": 69,
     "scm_checked": true,
-    "integrity_hash": "8009ac9311ffdfcea7f6919ca062c31cd0c0e957179f33f359ecb6a8f373f2eb",
-    "scan_time": "2026-02-10 01:06:57",
-    "files_scanned": 69
+    "integrity_hash": "3d6f33fb4..."
   }
 }

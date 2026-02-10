@@ -46,7 +46,7 @@ If you’re here, it’s because you realized that other tools are just glorifie
 ### Running The Audit
 
 ```bash
-python engine.py
+python engine.py # use --live for continuous monitoring
 ```
  
 ## The Value Proposition
