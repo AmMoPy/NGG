@@ -1,47 +1,35 @@
-# SOC 2 Automated Governance Contract
-project: "NGG"
-framework: "SOC2-Type1"
-
-# Mapping Logic to Framework IDs
 rules:
-  # CC6.1 & CC6.3: Multi-pattern Auth Check
-  - id: SOC2-CC6.1-Auth-Check
+  - id: auth_check_pattern
+    message: "Compliance Violation: Route found without proper Auth dependency (Function or Router level)."
     languages: [python]
     severity: ERROR
-    message: "Compliance Violation: Route found without proper Auth dependency (Function or Router level)."
+    # --- Original Semgrep pattern logic ---
     patterns:
-      # Match any function that has a router decorator
       - pattern: |
           @router.$METHOD(...)
           async def $FUNC(...):
               ...
-      # Filter OUT functions that have the dependency in their arguments
       - pattern-not: |
           @router.$METHOD(...)
           async def $FUNC(..., $VAR=Depends(...), ...):
               ...
-      # Filter OUT if the function signature contains a typed Depends
       - pattern-not: |
           @router.$METHOD(...)
           async def $FUNC(..., $VAR: $TYPE=Depends(...), ...):
               ...
-      # Filter OUT functions where the file has a router-level lock
       - pattern-not-inside: |
           $R = APIRouter(..., dependencies=[Depends($ANY)], ...)
-          ...
-
-    # Exclude login/public endpoints
+              ...
     paths:
       exclude:
-        - "backend/app/api/auth_ep.py"
-
-  # CC6.3: Strict Admin Check for admin_ep.py
-  - id: SOC2-CC6.3-Admin-Privilege
+        - "**/backend/app/api/auth_ep.py" # **/ exclude file regardless of where the backend folder sits, unlike / where exclusion only applies to that specific location
+  
+  - id: admin_privilege_pattern
+    message: "Privileged Access Violation: Admin endpoint must use 'require_admin' lock."
     languages: [python]
     severity: ERROR
-    message: "Privileged Access Violation: Admin endpoint must use 'require_admin' lock."
     paths:
-      include: ["backend/app/api/admin_ep.py"]
+      include: ["**/backend/app/api/admin_ep.py"]
     patterns:
       - pattern-either:
           # Verify the Router itself has the admin lock
@@ -54,3 +42,4 @@ rules:
               - metavariable-regex:
                   metavariable: $AUTH
                   regex: "^(get_current_user|get_user)$" # Flags if standard user auth is used in admin file
+# Add more patterns as needed

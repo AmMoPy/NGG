@@ -1,0 +1,23 @@
+target_directory: "../../../../DoX/DOX" # Path to the codebase to audit
+framework: "SOC2-Type1" # Name of the compliance framework
+
+# Define the control matrix and pattern definition files
+control_matrix_file: "controls/soc2_type1_controls.yaml"
+pattern_definitions_file: "patterns/soc2_patterns.yaml"
+
+# List of auditor modules to run (relative to auditors/dir)
+auditors:
+  - "logic_auditor"
+  - "process_auditor"
+
+# List of output modules to generate (relative to outputs/dir)
+# Choose either html_output or tui_output, or both if desired (though TUI might dominate console)
+outputs:
+  - "tui_output"
+  # - "html_output"
+
+output_settings:
+  html_report_file: "audit_report.html"
+  html_template_dir: "report_templates" # Relative to script location
+  json_output_file: "raw_results.json" # For debugging/CI pipelines
+  # Add any TUI-specific settings here if needed in the future

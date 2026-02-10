@@ -1,0 +1,86 @@
+/* styles.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+header {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.summary-stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.stat-box {
+    padding: 15px;
+    border-radius: 5px;
+    min-width: 120px;
+}
+
+.stat-pass { background-color: #e6f4ea; color: #073b0f; }
+.stat-fail { background-color: #fce8e6; color: #8c1515; }
+
+.chart-container {
+    width: 300px; /* Or make it responsive */
+    height: 300px;
+    margin: 20px auto;
+}
+
+.findings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.findings-table th, .findings-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.findings-table th {
+    background-color: #f2f2f2;
+}
+
+ .status-pass { color: #073b0f; font-weight: bold; } /* Green */
+ .status-fail { color: #8c1515; font-weight: bold; } /* Red */
+
+ .evidence-details {
+     display: none; /* Hidden by default */
+     margin-top: 5px;
+     padding: 10px;
+     background-color: #f9f9f9;
+     border-left: 3px solid #ccc;
+ }
+
+ .toggle-details {
+     cursor: pointer;
+     color: #007bff; /* Blue link color */
+     text-decoration: underline;
+ }
+
+ footer {
+     margin-top: 30px;
+     padding-top: 20px;
+     border-top: 1px solid #eee;
+     text-align: center;
+     font-size: 0.8em;
+     color: #777;
+ }

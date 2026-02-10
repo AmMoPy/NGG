@@ -1,0 +1,15 @@
+framework: "SOC2-Type1"
+description: "Controls required for SOC 2 Type 1 assessment"
+controls:
+  - id: "CC6.1"
+    objective: "Logical and physical access controls are suitably designed to..."
+    verification_method: "auth_check_pattern" # points to a Semgrep rule ID
+    category: "Logic"
+  - id: "CC6.3"
+    objective: "Prior to issuing system credentials, the entity registers and authorizes new internal users..."
+    verification_method: "admin_privilege_pattern"
+    category: "Logic"
+  - id: "CC1.5" # mapping to verification method is handled within ProcessAuditor
+    objective: "The entity implements logical access security measures to protect nonpublic information..."
+    category: "Process"
+# ... more controls

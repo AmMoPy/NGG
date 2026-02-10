@@ -1,0 +1,48 @@
+<section id="summary">
+    <h2>Audit Summary</h2>
+    <div class="summary-stats">
+        <div class="stat-box stat-pass">
+            <h3 id="pass-count"></h3>
+            <p>Passed</p>
+        </div>
+        <div class="stat-box stat-fail">
+            <h3 id="fail-count"></h3>
+            <p>Failed</p>
+        </div>
+        <div class="stat-box">
+            <h3 id="total-count"></h3>
+            <p>Total Checks</p>
+        </div>
+    </div>
+    <div class="chart-container">
+        <canvas id="resultsChart" width="300" height="300"></canvas>
+    </div>
+</section>
+
+<section id="findings-list">
+    <h2>Detailed Findings</h2>
+    <table class="findings-table">
+        <thead>
+            <tr>
+                <th>Control ID</th>
+                <th>Type</th>
+                <th>Objective</th>
+                <th>Status</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody id="findings-tbody">
+             <!-- Rows will be populated by JS -->
+        </tbody>
+    </table>
+</section>
+
+<!-- Placeholder for Recommendations Section -->
+<div id="recommendations-section-placeholder" style="display: none;">
+    <section id="recommendations-section">
+        <h2>Recommended Actions</h2>
+        <ul id="recommendations-list">
+            <!-- Dynamic recommendations will be inserted here by JS -->
+        </ul>
+    </section>
+</div>
