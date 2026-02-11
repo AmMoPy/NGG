@@ -36,75 +36,91 @@ class ProcessAuditor(BaseAuditor):
         """
         Checks if the last commit in the target directory has a GPG signature.
         Maps to SOC 2 CC1.5/CC8.1 (example linkage via decorator).
-        """
-        try:
-            original_cwd = os.getcwd() # Save current directory
-            os.chdir(self.target_dir) # Change to target directory
-            # Run git log command to check signature status of HEAD
-            result = subprocess.run(['git', 'log', '--show-signature', '-1'], capture_output=True, text=True)
-            output = result.stdout
-            os.chdir(original_cwd) # Restore original directory
 
-            if "[GNUPG:] GOODSIG" in output or "[GNUPG:] BADSIG" in output:
-                sig_status_line = next((line for line in output.split('\n') if '[GNUPG:] GOODSIG' in line or '[GNUPG:] BADSIG' in line), "")
-                
-                if '[GNUPG:] GOODSIG' in sig_status_line:
-                    return Finding(
-                        id=control_def.id,
-                        type=FindingType.PROCESS,
-                        status=FindingStatus.PASS,
-                        control=control_def.objective, # Use the objective from the control definition
-                        evidence={"message": "Last commit is GPG signed.", "signature_details": sig_status_line.strip()}
-                    )
-                elif '[GNUPG:] BADSIG' in sig_status_line:
-                    return Finding(
-                        id=control_def.id,
-                        type=FindingType.PROCESS,
-                        status=FindingStatus.FAIL,
-                        control=control_def.objective,
-                        evidence={"message": "Last commit has an invalid GPG signature.", "signature_details": sig_status_line.strip()}
-                    )
-            else:
+        Logic: G = Good, U = Good (untrusted), N = None, B = Bad.
+        """
+
+        # %G?: signature status (G, B, U, X, Y, R, E, N)
+        cmd = ["git", "log", "-1", '--pretty=format:%H|%ae|%G?|%ai']
+
+        try:
+            result = subprocess.run(
+                cmd, 
+                cwd=self.target_dir, # cleaner/safer than os.chdir 
+                capture_output=True, 
+                text=True, 
+                check=True
+            )
+
+            output = result.stdout.strip()
+
+            # early exit
+            if not output or "|" not in output:
                 return Finding(
                     id=control_def.id,
                     type=FindingType.PROCESS,
                     status=FindingStatus.FAIL,
                     control=control_def.objective,
-                    evidence={"message": "Last commit is not GPG signed.", "stdout": output}
+                    evidence={"message": "No commit history found or git error."}
                 )
+
+            # index output
+            commit_hash, email, gpg_code, date = output.split('|')
+
+            # G: Good signature
+            # U: Good signature, but untrusted (Common for GitHub web-flow keys)
+            if gpg_code in ['G', 'U']:
+                return Finding(
+                    id=control_def.id,
+                    type=FindingType.PROCESS,
+                    status=FindingStatus.PASS,
+                    control=control_def.objective,
+                    evidence={
+                        "message": f"Verified signature (Code: {gpg_code})",
+                        "commit": commit_hash,
+                        "user":email,
+                        "date":date
+                    }
+                )
+            
+            # N = None (Unsigned), B = Bad (Tampered)
+            failure_msg = "Last commit is NOT signed (SOC 2 Violation)." if gpg_code == 'N' else f"GPG Signature failed with code: {gpg_code}"
+            
+            return Finding(
+                id=control_def.id,
+                type=FindingType.PROCESS,
+                status=FindingStatus.FAIL,
+                control=control_def.objective,
+                evidence={
+                    "message": failure_msg,
+                    "commit": commit_hash,
+                    "status_code": gpg_code,
+                    "user":email,
+                    "date":date
+                }
+            )
 
             self.logger.info(f"GPG signature check for {control_def.id} completed")
         
         except subprocess.CalledProcessError as e:
             self.logger.error(f"GPG signature check for {control_def.id} failed: {e}")
-            os.chdir(original_cwd) # Ensure we restore directory even on error
             return Finding(
                 id=control_def.id,
                 type=FindingType.PROCESS,
                 status=FindingStatus.ERROR,
                 control=control_def.objective,
-                evidence={"message": f"Could not run git command in target directory: {e}"}
+                evidence={"message": f"Could not run git command in target directory: {str(e)}"}
             )
 
-        except FileNotFoundError:
-            self.logger.error(f"GPG signature check for {control_def.id} failed: {e}")
-            os.chdir(original_cwd)
+        except Exception as e:
+            self.logger.error(f"Unexpected error during GPG check for {control_def.id}: {e}")
             return Finding(
                 id=control_def.id,
                 type=FindingType.PROCESS,
                 status=FindingStatus.ERROR,
                 control=control_def.objective,
-                evidence={"message": "Git command not found in environment."}
+                evidence={"message": f"GPG check error: {str(e)}"}
             )
-
-        # Reset directory again in case of unexpected errors bypassing the try-except blocks
-        finally:
-            try:
-                os.chdir(original_cwd)
-            except FileNotFoundError:
-                # If the original directory somehow disappeared, warn but continue
-                self.logger.warning("Could not restore original working directory after Git check.")
-
 
     # @register_process_check("OTHER_CONTROL_ID") # Example for future checks
     # def _check_something_else(self, control_def: ControlDefinition) -> Finding:

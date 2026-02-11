@@ -46,8 +46,11 @@
       "status": "FAIL",
       "control": "The entity implements logical access security measures to protect nonpublic information...",
       "evidence": {
-        "message": "Last commit is not GPG signed.",
-        "stdout": "commit 85a7f92ab...\nAuthor: User\nDate:   Sun Feb 1 22:57:24 2026 +0200\n\n    Lies & Exaggerations\n"
+        "message": "Last commit is NOT signed (SOC 2 Violation).",
+        "commit": "85a7f92ab...",
+        "status_code": "N",
+        "user": "User",
+        "date": "2026-02-01 22:57:24 +0200"
       }
     }
   ],
@@ -56,11 +59,11 @@
     "fail": 2
   },
   "metadata": {
-    "scan_time": "2026-02-11 00:23:53",
+    "scan_time": "2026-02-11 20:41:07",
     "framework": "SOC2-Type1",
     "target_path": "../../DoX/DOX",
     "files_scanned": 69,
     "scm_checked": true,
-    "integrity_hash": "3d6f33fb4..."
+    "integrity_hash": "e7ffa737..."
   }
 }
